@@ -27,6 +27,8 @@ export default function Create() {
     //请求成功执行
     .then(res => {
       alert('帖子创建成功')
+      //成功后自动跳转到博客页面首页
+      window.location.href = '/my/posts'
     })
       //请求失败后执行
       .catch(err => {
