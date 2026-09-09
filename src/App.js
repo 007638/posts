@@ -6,6 +6,8 @@ import RegisterSuccess from './registersuccess'
 import Login from './login'
 import List from './list'
 import Create from './create'
+import Check from './check'
+import Profile from './profile'
 function App() {
   return (
     <BrowserRouter>
@@ -21,6 +23,10 @@ function App() {
         <Route path="/list" element={<List />}></Route>
         {/*新增帖子新建页面*/}
         <Route path="/create" element={<Create />}></Route>
+        {/*新增帖子查看详情页面*/}
+        <Route path="/post/:id" element={<Check />}></Route>
+        {/*新增帖子个人详情页路由*/}
+        <Route path="/profile" element={<Profile />}></Route>
       </Routes>
     </BrowserRouter>
   );
