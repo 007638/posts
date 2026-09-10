@@ -17,10 +17,12 @@ export default function Register() {
     }
     if (password !== confirmPwd) {
       alert('两次输入密码不一致')
+      return
     }
 
     //前端给后端发送网络请求，把用户名和密码发给后端，完成注册
-    const res = await fetch('http://172.20.13.32:8099/api/register', {
+    const res = await fetch('http://localhost:8099/api/register', {
+    //const res = await fetch('http://172.20.13.32:8099/api/register', {
       method: 'POST', //注册要把账号密码传给服务器，所以是POST
       headers :{'Content-Type': 'application/json'}, //请求头，告诉后端我发给你的数据是json格式
       body: JSON.stringify({username: username, password: password})
@@ -32,6 +34,7 @@ export default function Register() {
 
     //判断成功还是失败
     if (res.ok) {
+      alert("注册成功")
       navigate('/register-success')
     } else {
       alert(data.msg)
