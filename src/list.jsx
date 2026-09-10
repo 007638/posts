@@ -53,7 +53,7 @@ export default function List() {
           {/*点击标题，跳转到这篇帖子的详情页*/}
           <div
             onClick={() => navigate(`/post/${post.id}`)}
-            style={{color:"#f0f0f0",fontSize:"13px",fontWeight:"bold"}}>
+            style={{color:"black",fontSize:"13px",fontWeight:"bold"}}>
             {/*显示帖子标题*/}
             {post.title}
           </div>

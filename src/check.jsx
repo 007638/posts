@@ -1,6 +1,6 @@
 import {useState, useEffect} from 'react'
 //useParams获取url上的参数
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 //引入axios,用来向后端发送评论请求
 import axios from 'axios'
 
@@ -10,6 +10,7 @@ export default function Check () {
   const [post, setPost] = useState(null);//变量post存帖子数据
   const [commentText, setCommentText] = useState('');//变量存评论框文字
   const [replyTo, setReplyTo] = useState(null);//变量存正在回复哪条评论
+  const navigate = useNavigate();//点击跳转页面
 
   //页面一打开，就自动执行这段代码
   useEffect(()=>{

@@ -8,6 +8,7 @@ import List from './list'
 import Create from './create'
 import Check from './check'
 import Profile from './profile'
+import MyPosts from './myposts'
 function App() {
   return (
     <BrowserRouter>
@@ -27,6 +28,8 @@ function App() {
         <Route path="/post/:id" element={<Check />}></Route>
         {/*新增帖子个人详情页路由*/}
         <Route path="/profile" element={<Profile />}></Route>
+        {/*新增我的帖子页面*/}
+        <Route path="/myposts" element={<MyPosts />}></Route>
       </Routes>
     </BrowserRouter>
   );
