@@ -2,7 +2,7 @@ import { useState } from 'react'
 //用来向后端发送请求博得的网络请求
 import axios from 'axios'
 //导入link路由跳转标签
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 //定义并导出一个名叫Create的组件
 export default function Create() {
@@ -10,31 +10,43 @@ export default function Create() {
   //创建正文变量，content：存入输入框文字，setContent:修改文字的函数
   const [title, setTitle] = useState('')
   const [content,setContent] = useState('')
+  const navigate = useNavigate()
 
   //定义提交博客的函数，点击提交按钮就执行这个函数
   const submitBlog = () => {
+    console.log("title的值:", title)
+    console.log("content的值:", content)
+    const uidRaw = localStorage.getItem('userId')
+    console.log("拿到的uidRaw值：", uidRaw)
+    console.log("localStorage原始uid: ",uidRaw, typeof uidRaw)
+    const uid = Number(uidRaw)
+    console.log("转数字后的uid: ", uid,typeof uid)
+
+    const sendData = {
+      title: title,
+      content: content,
+      user_id: uid
+    }
+    console.log("发给后端数据包",sendData)
     //判断标题或内容为空时，将提交不能提交
     if (!title || !content) {
       alert('标题和内容都不能为空')
         return
     }
+    if(!uidRaw){
+      alert("请先登录")
+      return
+    }
     //发送post请求，把标题内容传给后端新增的接口
-    axios.post('http://172.20.13.32:8099/api/create', {
-      title:title,
-      content:content,
-      user_id: localStorage.getItem('userId')
-    })
-    //请求成功执行
+    axios.post('http://localhost:8099/api/create', sendData)
     .then(res => {
       alert('帖子创建成功')
-      //成功后自动跳转到博客页面首页
-      window.location.href = '/my/posts'
+      navigate('/my/posts')
     })
-      //请求失败后执行
-      .catch(err => {
-        console.log('新增博客失败',err)
-        alert('提交失败，请重试')
-      })
+    .catch(err => {
+      console.log('新增博客失败',err)
+      alert('提交失败，请重试')
+    })
   }
 
   //页面渲染内容
