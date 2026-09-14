@@ -6,9 +6,10 @@ import RegisterSuccess from './registersuccess'
 import Login from './login'
 import List from './list'
 import Create from './create'
-import Check from './check'
+import Detail from './detail'
 import Profile from './profile'
 import MyPosts from './myposts'
+import MyComments from './mycomments'
 function App() {
   return (
     <BrowserRouter>
@@ -25,11 +26,13 @@ function App() {
         {/*新增帖子新建页面*/}
         <Route path="/create" element={<Create />}></Route>
         {/*新增帖子查看详情页面*/}
-        <Route path="/post/:id" element={<Check />}></Route>
+        <Route path="/post/:id" element={<Detail />}></Route>
         {/*新增帖子个人详情页路由*/}
         <Route path="/profile" element={<Profile />}></Route>
         {/*新增我的帖子页面*/}
         <Route path="/myposts" element={<MyPosts />}></Route>
+        {/*新增我的回帖页面*/}
+        <Route path="/mycomments" element={<MyComments />}></Route>
       </Routes>
     </BrowserRouter>
   );

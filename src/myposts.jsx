@@ -1,17 +1,24 @@
 import {useState, useEffect} from 'react'
 import {useNavigate} from 'react-router-dom' //引入useNavigate, 用来跳转页面
+import {useLocation} from 'react-router-dom' //引入useLocation,用来读取浏览器地址栏里的参数
 
 export default function MyPosts() {
   const [posts, setPosts] = useState([]);//变量posts存帖子数组，初始为空
   const navigate = useNavigate();  //拿到跳转工具用来跳转页面
+  const location = useLocation(); //拿到当前页面完整的url信息
+  const searchParams = new URLSearchParams(location.search);//解析url后面的参数
+  const userId = searchParams.get('user_id');//取出url里的user_id的值
 
   useEffect(()=>{
-    const userId = localStorage.getItem('userId');//从本地储存里取登录时的id
+    if (!userId){
+      console.log("没有登陆id");
+      return;
+    }
     fetch(`http://172.20.13.32:8099/api/my/posts?user_id=${userId}`)//向后端发送请求，要这个用户的信息
       .then((res) => res.json())//请求成功
       .then((data) => setPosts(data.result)) //把帖子数组存进posts
       .catch((err) => console.log('加载我的帖子失败', err));//请求失败
-  },[]);
+  },[userId]);
 
 
   //使用return返回页面
@@ -29,6 +36,10 @@ export default function MyPosts() {
           </div>
         ))
       )}
+      <button
+        onClick={()=>navigate('/profile')}
+        style={{marginTop:"20px",padding:"6px 8px"}}>返回个人主页
+      </button>
     </div>
   );
 }

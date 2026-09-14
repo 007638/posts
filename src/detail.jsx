@@ -5,7 +5,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
 
-export default function Check () {
+export default function Detail () {
   const { id } = useParams();//从网址里取出帖子id
   const [post, setPost] = useState(null);//变量post存帖子数据
   const [commentText, setCommentText] = useState('');//变量存评论框文字
@@ -91,7 +91,6 @@ export default function Check () {
         </div>
       ))}
 
-
       <div style={{marginTop:"20px"}}> {/*底部评论输入区*/}
         {/*如果正在回复某人*/}
         {replyTo && (
@@ -116,6 +115,12 @@ export default function Check () {
         />
         <button onClick={submitComment} style={{marginTop:"10px", padding:"10px 15px"}}>
           {replyTo ? '回复' : '发表评论'}{/*按钮文字: 正在回复显示“回复”，否则显示“发表评论”*/}
+        </button>
+        <button
+          onClick={() =>navigate('/list')}
+          style={{marginBottom:"15px",padding:"10px 15px",marginLeft:"10px"}}
+        >
+          返回帖子列表
         </button>
       </div>
     </div>

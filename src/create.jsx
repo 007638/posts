@@ -41,7 +41,7 @@ export default function Create() {
     axios.post('http://localhost:8099/api/create', sendData)
     .then(res => {
       alert('帖子创建成功')
-      navigate('/my/posts')
+      navigate('/list')
     })
     .catch(err => {
       console.log('新增博客失败',err)
@@ -94,7 +94,7 @@ export default function Create() {
             >
              提交博客
             </button>
-            <Link to="/">
+            <Link to="/list">
               <button style={{width:"140px",height:"40px",fontSize:"18px"}}>
                 返回帖子列表
               </button>

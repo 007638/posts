@@ -39,12 +39,20 @@ export default function List() {
           onChange={(e) => setKeyword(e.target.value)}
           style={{width:"120px",borderRadius:"8px",padding:"8px 12px",border:"1px solid black"}}
         />
-        <button onClick={() => navigate('/create')}
-          style={{background:"white",padding:"2px 6px",color:"black",borderRadius:"8px",fontSize:"13px"}}
-        >
-          发布新话题
-        </button>
+        <div>
+          <button onClick={() => navigate('/create')}
+            style={{background:"white",padding:"2px 6px",color:"black",borderRadius:"8px",fontSize:"13px"}}
+          >
+            发布新话题
+          </button>
+          <button onClick={() => navigate('/profile')}
+            style={{background:"yellow",padding:"2px 6px",color:"blue",borderRadius:"8px",fontSize:"13px",marginLeft:"10px"}}
+          >
+           个人信息
+          </button>
+        </div>
       </div>
+
 
       {/*遍历所有帖子*/}
       {filteredPosts.map((post) => (
@@ -69,14 +77,12 @@ export default function List() {
         </div>
       ))}
 
-      {/*如果一篇帖子都没有就准备提示语*/}
+      {/*一篇帖子没有就准备提示语*/}
       {filteredPosts.length === 0 && (
         <div style={{textAlign:"center",color:"black",padding:"20px 10px"}}>
-          {/*根据有没有搜索词，显示对应的提示词*/}
-          {keyword ? '没有搜到相关帖子' : '暂无帖子，点击右上角"发布新话题"'}
+          {keyword ? '没有搜到相关帖子' : '暂无帖子，点击右上角发布新话题'}
         </div>
       )}
-    </div>
-  )
+  </div>
+)
 }
-

@@ -29,7 +29,7 @@ export default function Profile() {
           <img
             src="/yuan.jpg"
             alt="头像"
-            style={{width:"80px",height:"80px",borderRadius:"50%",objectFit:"cover"}}
+            style={{width:"80px",height:"80px",borderRadius:"50%",objectFit:"cover",marginRight:"10px"}}
           />
 
           <div>
@@ -40,17 +40,21 @@ export default function Profile() {
       )}
 
       {/*帖子总数+回帖总数,点击跳转对应的页面*/}
-      <div style={{display:"flex",justifyContent:"space-around",top:"20px", borderTop:"1px solid #eee",paddingTop:"20xp"}}>
-        <div onClick={() =>navigate('/my/posts')} style={{textAlign:"center", flex:1}}>
+      <div style={{display:"flex",justifyContent:"space-around",top:"20px", borderTop:"1px solid #eee",paddingTop:"20xp",marginRight:"160px"}}>
+        <div onClick={() =>navigate(`/myposts?user_id=${user.id}`)} style={{textAlign:"center", flex:1}}>
           <div style={{fontSize:"13px", fontWeight:"bold"}}>{postCount}</div>
           <div style={{color:"blue"}}>帖子总数</div>
         </div>
 
-        <div onClick={() =>navigate('/my/comments')} style={{textAlign:"center"}}>
+        <div onClick={() =>navigate(`/mycomments?user_id=${user.id}`)} style={{textAlign:"center",marginRight:"90px"}}>
           <div style={{fontSize:"13px",fontWeight:"bold"}}>{commentCount}</div>
           <div style={{color:"blue"}}>回帖总数</div>
         </div>
       </div>
+      <button
+        onClick={()=>navigate('/list')}
+        style={{marginTop:"20px",padding:"6px 8px"}}>返回列表页
+      </button>
     </div>
   );
 }
