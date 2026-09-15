@@ -10,6 +10,7 @@ import Detail from './detail'
 import Profile from './profile'
 import MyPosts from './myposts'
 import MyComments from './mycomments'
+import LandingPage from './landing-page'
 function App() {
   return (
     <BrowserRouter>
@@ -33,6 +34,8 @@ function App() {
         <Route path="/myposts" element={<MyPosts />}></Route>
         {/*新增我的回帖页面*/}
         <Route path="/mycomments" element={<MyComments />}></Route>
+        {/*新增欢迎页*/}
+        <Route path="/landing-page" element={<LandingPage />}></Route>
       </Routes>
     </BrowserRouter>
   );
