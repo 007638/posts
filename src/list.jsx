@@ -1,11 +1,16 @@
 import {useState, useEffect} from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
 
 export default function List() {
   const [posts, setPosts] = useState([])
   //声明状态keyword,初始值是空字符串，用户每次在搜索框打字时，就用setKeyword更新它
   const [keyword, setKeyword] = useState('')
   const navigate = useNavigate()
+  //读取网址参数，拿到首页更多传过来的tagId
+  const [searchParams] = useSearchParams()
+  const tagId = searchParams.get('tagId')
+
   useEffect(() => {
     fetch('http://172.20.13.32:8099/api/posts')
       //后端返回的是JSON字符串
@@ -17,12 +22,15 @@ export default function List() {
       .catch(err => console.log('获取列表失败',err))//请求失败返回错误信息
   },[])//useEffect的闭合,[]表示只执行一次
 
-  //搜索出对应的帖子
+  //搜索出对应的帖子,先判断tagId,再判断关键词
   //posts.filter((post):从所有帖子里挑出符合条件的，并把它存到filteredposts中
-  const filteredPosts = posts.filter((post) =>
+  const filteredPosts = posts.filter((post) => {
+    //如果网址带tagId,就只保留这个标签的帖子，不带tagId就显示所有
+    const tagMatch = !tagId || post.tagId == tagId
     //判断标题里包不包含搜索词
-    post.title.toLowerCase().includes(keyword.toLowerCase())
-  )
+    const searchMatch =  post.title.toLowerCase().includes(keyword.toLowerCase())
+    return tagMatch && searchMatch
+  })
 
   //使用return返回渲染页面
   return (
