@@ -12,7 +12,11 @@ export default function List() {
   const tagId = searchParams.get('tagId')
 
   useEffect(() => {
-    fetch('http://172.20.13.32:8099/api/posts')
+    let url = 'http://172.20.13.32:8099/api/posts'
+    if(tagId){
+      url += `?tagId=${tagId}`
+    }
+      fetch(url)
       //后端返回的是JSON字符串
       .then((res) => res.json())
       //等解析完，拿到真正的数据data,data.result是后端返回的帖子数组
@@ -25,11 +29,9 @@ export default function List() {
   //搜索出对应的帖子,先判断tagId,再判断关键词
   //posts.filter((post):从所有帖子里挑出符合条件的，并把它存到filteredposts中
   const filteredPosts = posts.filter((post) => {
-    //如果网址带tagId,就只保留这个标签的帖子，不带tagId就显示所有
-    const tagMatch = !tagId || post.tagId == tagId
     //判断标题里包不包含搜索词
     const searchMatch =  post.title.toLowerCase().includes(keyword.toLowerCase())
-    return tagMatch && searchMatch
+    return  searchMatch
   })
 
   //使用return返回渲染页面
@@ -47,18 +49,6 @@ export default function List() {
           onChange={(e) => setKeyword(e.target.value)}
           style={{width:"120px",borderRadius:"8px",padding:"8px 12px",border:"1px solid black"}}
         />
-        <div>
-          <button onClick={() => navigate('/create')}
-            style={{background:"white",padding:"2px 6px",color:"black",borderRadius:"8px",fontSize:"13px"}}
-          >
-            发布新话题
-          </button>
-          <button onClick={() => navigate('/profile')}
-            style={{background:"yellow",padding:"2px 6px",color:"blue",borderRadius:"8px",fontSize:"13px",marginLeft:"10px"}}
-          >
-           个人信息
-          </button>
-        </div>
       </div>
 
 

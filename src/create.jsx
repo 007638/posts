@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 //用来向后端发送请求博得的网络请求
 import axios from 'axios'
 //导入link路由跳转标签
@@ -10,7 +10,50 @@ export default function Create() {
   //创建正文变量，content：存入输入框文字，setContent:修改文字的函数
   const [title, setTitle] = useState('')
   const [content,setContent] = useState('')
+  //存所有版块标签
+  const [tagList, setTagList] = useState([])
+  //用户选中的tagId
+  const [selectedTagId, setSelectedTagId] = useState('')
   const navigate = useNavigate()
+  //保存自定义版块输入的名字
+  const [customTagName, setCustomTagName] = useState('')
+
+  //新增页面加载获取所有版块标签
+  useEffect(()=>{
+    axios.get('http://localhost:8099/api/tags')
+      .then(res=>{
+        setTagList(res.data.result)
+      })
+  },[])
+
+  //新增自定义标签
+  const addCustomTag = () => {
+    const tagName = customTagName.trim()
+    if (!tagName) {
+      alert("标签名称不能为空")
+      return
+    }
+    axios.post('http://localhost:8099/api/create-tag',{
+      //把输入的标签名字传给后端
+      name: tagName
+    })
+    .then(res=>{
+      alert(res.data.msg)
+      //重新获取标签列表
+      axios.get('http://localhost:8099/api/tags')
+      .then(resGet => {
+        console.log("最新标签列表",resGet.data.result)
+        setTagList(resGet.data.result)
+        setSelectedTagId(String(res.data.data.id))
+      })
+      //清空自定义标签输入框
+      setCustomTagName('')
+    })
+    .catch(err=>{
+      console.log(err)
+      alert("新建标签失败")
+    })
+  }
 
   //定义提交博客的函数，点击提交按钮就执行这个函数
   const submitBlog = () => {
@@ -25,7 +68,9 @@ export default function Create() {
     const sendData = {
       title: title,
       content: content,
-      user_id: uid
+      user_id: uid,
+      tag_id: Number(selectedTagId)
+
     }
     console.log("发给后端数据包",sendData)
     //判断标题或内容为空时，将提交不能提交
@@ -37,6 +82,12 @@ export default function Create() {
       alert("请先登录")
       return
     }
+
+    if(!selectedTagId){
+      alert("请选择帖子所属标签")
+      return
+    }
+
     //发送post请求，把标题内容传给后端新增的接口
     axios.post('http://localhost:8099/api/create', sendData)
     .then(res => {
@@ -66,6 +117,40 @@ export default function Create() {
        />
         <div style={{margin:"20px 0px"}}>
           <h1 style={{fontSize:"30px",fontWeight:"bold",textAlign:"left"}}>新建帖子:</h1>
+
+          {/*标签下拉框*/}
+          <div style={{margin:"20px 20px",textAlign:"left",color:"black"}}>
+            <p style={{fontSize:"20px"}}>选择标签:</p>
+            <select
+              value={selectedTagId}
+              onChange={(e)=>setSelectedTagId(e.target.value)}
+              style={{width:"100%",height:"40px",fontSize:"18px",padding:"0 10px"}}
+            >
+              <option value="">请选择版块</option>
+              {tagList.map(tag=>(
+                <option key={tag.id} value={tag.id}>{tag.name}</option>
+              ))}
+            </select>
+          </div>
+
+          {/*自定义标签*/}
+          <div style={{margin:"20px 20px",textAlign:"left",color:"black"}}>
+            <p style={{fontSize:"20px"}}>新建标签</p>
+            <div style={{display:"flex",gap:"10px"}}>
+              <input
+                placeholder="输入标签名称"
+                value={customTagName}
+                onChange={(e)=>setCustomTagName(e.target.value)}
+              />
+              <button
+                onClick={addCustomTag}
+                style={{width:"140px",height:"40px",fontSize:"14px"}}
+              >
+                添加标签
+              </button>
+            </div>
+          </div>
+
           {/*标题输入框*/}
           <div style={{margin:"20px 20px",textAlign:"left",color:"black"}}>
             <p style={{fontSize:"22px"}}>标题: </p>
@@ -94,7 +179,7 @@ export default function Create() {
             >
              提交博客
             </button>
-            <Link to="/list">
+            <Link to="/landing-page">
               <button style={{width:"140px",height:"40px",fontSize:"18px"}}>
                 返回帖子列表
               </button>

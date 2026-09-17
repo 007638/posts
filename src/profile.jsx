@@ -52,7 +52,7 @@ export default function Profile() {
         </div>
       </div>
       <button
-        onClick={()=>navigate('/list')}
+        onClick={()=>navigate('/landing-page')}
         style={{marginTop:"20px",padding:"6px 8px"}}>返回列表页
       </button>
     </div>

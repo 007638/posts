@@ -29,7 +29,7 @@ export default function Login() {
     if (res.ok) {
       localStorage.setItem('userId', data.user.id)
       localStorage.setItem('username', data.user.username)
-      navigate('/list')
+      navigate('/landing-page')
     } else {
       alert(data.msg)
     }

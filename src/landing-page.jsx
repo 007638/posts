@@ -38,13 +38,24 @@ export default function LandingPage() {
         alignItems:'flex-end',
         marginTop:"20px"
       }}>
-        <h1>汽车论坛</h1>
         <input
           placeholder="搜索帖子"
           value={keyword}
           onChange={(e) => setKeyword(e.target.value)}
-          style={{width:"120px",borderRadius:"8px",padding:"8px 12px",border:"1px solid black"}}
+          style={{width:"120px",borderRadius:"8px",padding:"8px 12px",border:"1px solid black",marginRight:"-700px"}}
         />
+        <div>
+          <button onClick={() => navigate('/create')}
+            style={{background:"white",padding:"2px 6px",color:"black",borderRadius:"8px",fontSize:"13px"}}
+          >
+            发布新话题
+          </button>
+          <button onClick={() => navigate('/profile')}
+            style={{background:"yellow",padding:"2px 6px",color:"blue",borderRadius:"8px",fontSize:"13px",marginLeft:"10px"}}
+          >
+            个人信息
+          </button>
+        </div>
       </div>
 
       {/*渲染每一个标签板块*/}
